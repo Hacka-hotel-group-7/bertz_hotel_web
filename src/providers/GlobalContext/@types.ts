@@ -1,5 +1,6 @@
 import { TLogin } from "../../components/Login/LoginSchema";
 import { TGuestRegisterSchema } from "../../components/Register/RegisterSchema";
+import { TReservationSchema } from "../../components/Reservations/ReservationSchema";
 
 export interface IGlobalProviderProps {
     children: React.ReactNode
@@ -25,6 +26,21 @@ export interface IHotel {
     promotion: IPromotion[]
     images: IImage[]
     services: IService[]
+    reviews: IReview[]
+}
+
+export interface IUser {
+    id: string
+    name: string
+    username: string
+    country_code: string
+    contact_info: string
+    document_type: string
+    document_number: string
+    role: string
+    is_superuser: boolean
+    reviews: IReview[]
+    reservations: IReservation[]
 }
 
 export interface IBedroom {
@@ -52,16 +68,42 @@ export interface IService {
     service: string
 }
 
+export interface IReservation{
+    id: string
+    checkin_date: string
+    checkout_date: string
+    status: string
+    paid: boolean
+    payment_method: string
+    total: number
+    guest: IUser
+    bedroom: IBedroom
+}
+
+export interface IReview{
+    id: string
+    classification: number
+    comments: string
+}
+
 export interface IGlobalContext {
     login: (formData: TLogin) => void
     logOut: () => void
     getAllHotels: () => void
     createUser: (formData: TGuestRegisterSchema) => void
+    updateUser: (formData: TGuestRegisterSchema, user_id: string) => void
+    deleteUser: (user_id: string) => void
     getHotelById: (hotel_id: string) => void
     CurrentUser: ICurrentUser | null   
-    HotelsList: IHotel[]    
+    HotelsList: IHotel[]
+    setHotelsList: React.Dispatch<React.SetStateAction<IHotel[]>>    
     Hotel: IHotel | null
     setHotel: React.Dispatch<React.SetStateAction<IHotel | null>>
     SuggestedHotels: IHotel[]
     setSuggestedHotels: React.Dispatch<React.SetStateAction<IHotel[]>>
+    BedroomsList: IBedroom[]
+    setBedroomsList: React.Dispatch<React.SetStateAction<IBedroom[]>>
+    getAllBedrooms: () => void
+    createReservation: (formData: TReservationSchema) => void
+    updateReservation: (formData: string, booking_id: string) => void
 }
