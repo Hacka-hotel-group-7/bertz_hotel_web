@@ -1,13 +1,16 @@
 import { ToastContainer } from "react-toastify";
 import { ResetStyled } from "./styles/GlobalReset";
 import { GlobalStyled } from "./styles/GlobalStyled";
-import Home from "./pages/Home/Home";
+import { ResgisterPage } from "./components/Register";
+import { LoginModal } from "./components/Login";
 
 const App = () => {
   return (
     <>
-      <ResetStyled />
       <GlobalStyled />
+      <ResetStyled />
+      <ResgisterPage />
+      <LoginModal />
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -20,7 +23,6 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
-      <Home />
     </>
   );
 };
