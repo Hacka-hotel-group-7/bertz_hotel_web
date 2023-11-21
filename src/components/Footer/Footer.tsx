@@ -1,16 +1,22 @@
+import { StyledH3 } from "../../styles/typography";
+import { FooterStyled } from "./styles";
+
 function Footer() {
   return (
-    <footer>
-      <section>
+    <FooterStyled>
+      <section className="footer_container">
         <div>
-          <img src="#" alt="Logo do The Bertz Hotel" />
+          <img
+            src="../../../public/Imperial2.png"
+            alt="Logo do The Bertz Hotel"
+          />
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
         <div>
-          <h3>Links Rápidos</h3>
+          <StyledH3 fontWeight="semibold">Links Rápidos</StyledH3>
           <ul>
             <li>Home</li>
             <li>Sobre</li>
@@ -18,7 +24,7 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <h3>Contato</h3>
+          <StyledH3 fontWeight="semibold">Contato</StyledH3>
           <ul>
             <li>Fone: 1234567890</li>
             <li>E-mail: bertzhoteis@mail.com</li>
@@ -35,7 +41,7 @@ function Footer() {
       <div>
         <p>© 2023 | Todos os direitos reservados.</p>
       </div>
-    </footer>
+    </FooterStyled>
   );
 }
 

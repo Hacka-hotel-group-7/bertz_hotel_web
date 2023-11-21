@@ -3,14 +3,15 @@ import { ResetStyled } from "./styles/GlobalReset";
 import { GlobalStyled } from "./styles/GlobalStyled";
 import { ResgisterPage } from "./components/Register";
 import { LoginModal } from "./components/Login";
+import Home from "./pages/Home/Home";
 
 const App = () => {
   return (
     <>
       <GlobalStyled />
       <ResetStyled />
-      <ResgisterPage />
-      <LoginModal />
+      {/* <ResgisterPage />
+      <LoginModal /> */}
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -23,6 +24,7 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
+      <Home />
     </>
   );
 };

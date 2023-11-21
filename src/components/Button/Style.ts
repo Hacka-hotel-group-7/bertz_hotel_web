@@ -5,12 +5,12 @@ export const ButtonStyled = styled.button`
   height: 45px;
   border: transparent;
   border-radius: 23px;
-  background-color: #687259;
+  background-color: var(--brand-green);
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
 
   :hover {
-    background-color: ;
+    background-color: var(--brand-green-2);
   }
 `;

@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 export const HeaderStyled = styled.header`
   width: 100%;
   background-color: var(--background);
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 
   .header_container {
     display: flex;
@@ -18,6 +19,10 @@ export const HeaderStyled = styled.header`
     ul {
       display: flex;
       justify-content: space-between;
+
+      li {
+        cursor: pointer;
+      }
     }
   }
 
