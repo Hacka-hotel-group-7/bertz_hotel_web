@@ -17,6 +17,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     const [Hotel, setHotel] = useState<IHotel | null>(null)
     const [SuggestedHotels, setSuggestedHotels] = useState<IHotel[]>([])
     const [BedroomsList, setBedroomsList] = useState<IBedroom[]>([])
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
     const navigate = useNavigate();
 
@@ -183,7 +184,9 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             setBedroomsList,
             getAllBedrooms,
             createReservation,
-            updateReservation
+            updateReservation,
+            isLoginModalOpen,
+            setIsLoginModalOpen
 
         }}>
             {children}

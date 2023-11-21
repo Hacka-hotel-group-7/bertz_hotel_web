@@ -106,4 +106,6 @@ export interface IGlobalContext {
     getAllBedrooms: () => void
     createReservation: (formData: TReservationSchema) => void
     updateReservation: (formData: string, booking_id: string) => void
+    isLoginModalOpen: boolean
+    setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
