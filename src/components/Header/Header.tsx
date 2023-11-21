@@ -1,11 +1,12 @@
+import { ButtonStyled } from "../Button/Style";
+import { HeaderStyled } from "./styles";
+
 function Header() {
   return (
-    <header>
-      <div>
-        <img src="#" alt="" />
-      </div>
-      <div>
-        <nav>
+    <HeaderStyled>
+      <div className="header_container">
+        <img src="../../../public/logo (1).png" alt="" />
+        <nav className="menu">
           <ul>
             <li>Menu 1</li>
             <li>Menu 2</li>
@@ -13,15 +14,15 @@ function Header() {
             <li>Menu 4</li>
           </ul>
         </nav>
+        <div className="menu_buttons">
+          <ButtonStyled>Botão 1</ButtonStyled>
+          <button className="drop_menu">
+            <img src="../../../public/gg_menu.png" alt="" />
+            <img src="../../../public/user.png" alt="" />
+          </button>
+        </div>
       </div>
-      <div>
-        <button>Botão 1</button>
-        <button>
-          <img src="#" alt="" />
-          <img src="#" alt="" />
-        </button>
-      </div>
-    </header>
+    </HeaderStyled>
   );
 }
 
