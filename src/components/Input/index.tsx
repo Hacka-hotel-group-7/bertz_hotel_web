@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef, InputHTMLAttributes, SelectHTMLAttributes } from 'react';
-import { StyledInput, StyledSelect } from './style';
+import { StyledInput, StyledSelect } from './styles';
 
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {

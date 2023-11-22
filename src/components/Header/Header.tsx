@@ -1,12 +1,18 @@
 import { StyledH3 } from "../../styles/typography";
 import { ButtonStyled } from "../Button/Style";
 import { HeaderStyled } from "./styles";
+import { useContext } from "react";
+import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
+import { LoginModal } from "../Login/index";
 
-function Header() {
+const Header = () => {
+
+    const { isLoginModalOpen, setIsLoginModalOpen, CurrentUser} = useContext(GlobalContext)
+    console.log(CurrentUser)
   return (
     <HeaderStyled>
       <div className="header_container">
-        <img src="../../../public/logo (1).png" alt="" />
+        <img src="/logo (1).png" alt="" />
         <nav className="menu">
           <ul>
             <li>
@@ -23,11 +29,14 @@ function Header() {
         </nav>
         <div className="menu_buttons">
           <ButtonStyled>Cadastre-se</ButtonStyled>
-          <button className="drop_menu">
-            <img src="../../../public/gg_menu.png" alt="" />
-            <img src="../../../public/user.png" alt="" />
+          <button className="drop_menu" onClick={() => setIsLoginModalOpen(!isLoginModalOpen)}>
+            <img src="../../public/gg_menu.png" alt="" />
+            <img src="/user.png" alt="" />
           </button>
         </div>
+        {isLoginModalOpen && (
+          <LoginModal/>
+        )}
       </div>
     </HeaderStyled>
   );
