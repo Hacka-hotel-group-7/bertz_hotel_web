@@ -8,7 +8,7 @@ import { StyledH3, StyledP } from "../../styles/typography"
 import { InputComponent } from "../Input";
 export const LoginModal = () => {
     const { login, setIsLoginModalOpen } = useContext(GlobalContext)
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors } } = useForm<TLogin>({
         resolver: zodResolver(LoginSchema)
@@ -16,7 +16,7 @@ export const LoginModal = () => {
 
     const submit = (formData: TLogin) => {
         login(formData)
-        // navigate('/')
+        navigate('/')
         setIsLoginModalOpen(false)
     }
 

@@ -19,7 +19,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     const [BedroomsList, setBedroomsList] = useState<IBedroom[]>([])
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const login = async (formData: TLogin) => {
 
@@ -28,13 +28,15 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             localStorage.setItem('user@TOKEN', data.access);
             const decoded = jwtDecode<ICurrentUser>(data.access);
             localStorage.setItem('user@INFO', JSON.stringify(decoded));
+            console.log(decoded)
+            console.log(data)
             toast.success('Login efetuado com sucesso!');
             setCurrentUser(decoded)
 
             if (decoded.role === 'hospede'){
-                // navigate('/')
+                navigate('/user')
             } else{
-                // navigate('/adm')
+                navigate('/adm/dashboard')
             }
 
         }catch{
@@ -46,7 +48,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
         localStorage.removeItem('user@ID');
         setCurrentUser(null)
         toast.success('Logout realizado')
-        // navigate('/')
+        navigate('/')
     }
     const createUser = async (formData: TGuestRegisterSchema) => {
         const {confirmPassword, ...newFormData} = formData
@@ -159,7 +161,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
         let user = localStorage.getItem('user@INFO');
         if(user){
             setCurrentUser(JSON.parse(user))
-            // navigate('/')
+            navigate('/')
         }
         
     }, [])
@@ -171,7 +173,6 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             createUser,
             updateUser,
             deleteUser,
-            // getAllHotels,
             getHotelById,
             CurrentUser,
             HotelsList,
@@ -182,7 +183,6 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             setSuggestedHotels,
             BedroomsList,
             setBedroomsList,
-            // getAllBedrooms,
             createReservation,
             updateReservation,
             isLoginModalOpen,

@@ -46,6 +46,7 @@ export interface IUser {
 export interface IBedroom {
     id: string
     status: number
+    image: string
     room_type: string
     bed_number: number
     price: number
@@ -103,7 +104,6 @@ export interface IGlobalContext {
     setSuggestedHotels: React.Dispatch<React.SetStateAction<IHotel[]>>
     BedroomsList: IBedroom[]
     setBedroomsList: React.Dispatch<React.SetStateAction<IBedroom[]>>
-    // getAllBedrooms: () => void
     createReservation: (formData: TReservationSchema) => void
     updateReservation: (formData: string, booking_id: string) => void
     isLoginModalOpen: boolean

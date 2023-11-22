@@ -4,7 +4,7 @@ interface IStyledTypographyTitle {
   fontWeight: "extrabold" | "bold" | "semibold" | "normal";
 }
 
-const HeadlineSyles = css<IStyledTypographyTitle>`
+const HeadlineStyles = css<IStyledTypographyTitle>`
   font-family: "Montserrat", sans-serif;
   color: var(--brand-green);
 
@@ -34,7 +34,7 @@ interface IStyledTypographyText {
   fontWeight: "extrabold" | "bold" | "semibold" | "normal";
 }
 
-const TextSyles = css<IStyledTypographyText>`
+const TextStyles = css<IStyledTypographyText>`
   font-family: "Montserrat", sans-serif;
   color: var(--lightgray2);
 
@@ -78,18 +78,18 @@ const TextSyles = css<IStyledTypographyText>`
   }}
 `;
 export const StyledH1 = styled.h1<IStyledTypographyTitle>`
-  ${HeadlineSyles};
+  ${HeadlineStyles};
 
   font-size: clamp(1rem, 0.476rem + 1.9729vw, 2rem);
 `;
 export const StyledH2 = styled.h2<IStyledTypographyTitle>`
-  ${HeadlineSyles}
+  ${HeadlineStyles}
   font-size: clamp(0.9375rem, 0.5117rem + 1.603vw, 1.75rem);
 `;
 export const StyledH3 = styled.h3<IStyledTypographyTitle>`
-  ${HeadlineSyles}
+  ${HeadlineStyles}
   font-size: clamp(0.875rem, 0.5475rem + 1.233vw, 1.5rem);
 `;
 export const StyledP = styled.p<IStyledTypographyText>`
-  ${TextSyles}
+  ${TextStyles}
 `;
