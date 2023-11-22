@@ -14,6 +14,7 @@ export const GlobalStyled = createGlobalStyle`
         --lightred: #E6CEBC;
         --brand-green: #687259;
         --brand-green-2: #25330F;
+        --background-2: #E8D3B8;
         
     }
 

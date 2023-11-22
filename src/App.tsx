@@ -1,8 +1,8 @@
-import { ToastContainer } from 'react-toastify'
-import { ResetStyled } from './styles/GlobalReset'
-import { GlobalStyled } from './styles/GlobalStyled'
-import Home from './pages/Home/Home.tsx'
-import { GlobalProvider } from './providers/GlobalContext/GlobalContext.tsx'
+import { ToastContainer } from "react-toastify";
+import { ResetStyled } from "./styles/GlobalReset";
+import { GlobalStyled } from "./styles/GlobalStyled";
+import { GlobalProvider } from "./providers/GlobalContext/GlobalContext.tsx";
+import Home from "./pages/Home/Home";
 
 const App = () => {
   return (
@@ -25,7 +25,7 @@ const App = () => {
               />
       </GlobalProvider>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
