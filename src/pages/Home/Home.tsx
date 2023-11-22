@@ -1,13 +1,17 @@
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
+import { HomeStyled } from "./styles";
 
 function Home() {
   return (
     <>
       <Header />
-      <main>
+      <HomeStyled>
         <div>
-          <img src="Logo" alt="" />
+          <img
+            src="../../../public/Bg-image.png"
+            alt="Imagem de um hotel de luxo"
+          />
           <div>
             <input type="text" name="" id="" placeholder="Pesquisa" />
             <img src="Lupa" alt="" />
@@ -35,7 +39,7 @@ function Home() {
           <li>Quarto</li>
           <li>Quarto</li>
         </ul>
-      </main>
+      </HomeStyled>
       <Footer />
     </>
   );
