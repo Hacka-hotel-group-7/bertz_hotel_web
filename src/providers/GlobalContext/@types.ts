@@ -89,7 +89,7 @@ export interface IReview{
 export interface IGlobalContext {
     login: (formData: TLogin) => void
     logOut: () => void
-    getAllHotels: () => void
+    // getAllHotels: () => void
     createUser: (formData: TGuestRegisterSchema) => void
     updateUser: (formData: TGuestRegisterSchema, user_id: string) => void
     deleteUser: (user_id: string) => void
@@ -103,7 +103,7 @@ export interface IGlobalContext {
     setSuggestedHotels: React.Dispatch<React.SetStateAction<IHotel[]>>
     BedroomsList: IBedroom[]
     setBedroomsList: React.Dispatch<React.SetStateAction<IBedroom[]>>
-    getAllBedrooms: () => void
+    // getAllBedrooms: () => void
     createReservation: (formData: TReservationSchema) => void
     updateReservation: (formData: string, booking_id: string) => void
     isLoginModalOpen: boolean

@@ -1,8 +1,14 @@
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import { HomeStyled } from "./styles";
+import { useContext } from 'react';
+import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";import { HomeStyled } from "./styles";
 
 function Home() {
+
+  const { HotelsList } = useContext(GlobalContext); 
+  console.log(HotelsList);
+  
+
   return (
     <>
       <Header />
