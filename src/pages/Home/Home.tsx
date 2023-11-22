@@ -1,7 +1,13 @@
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-
+import { useContext } from 'react';
+import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
 function Home() {
+
+  const { HotelsList } = useContext(GlobalContext); 
+  console.log(HotelsList);
+  
+
   return (
     <>
       <Header />

@@ -19,12 +19,12 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     const [BedroomsList, setBedroomsList] = useState<IBedroom[]>([])
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const login = async (formData: TLogin) => {
 
         try{
-            const { data } = await api.post('/login', formData);
+            const { data } = await api.post('login/', formData);
             localStorage.setItem('user@TOKEN', data.access);
             const decoded = jwtDecode<ICurrentUser>(data.access);
             localStorage.setItem('user@INFO', JSON.stringify(decoded));
@@ -32,9 +32,9 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             setCurrentUser(decoded)
 
             if (decoded.role === 'hospede'){
-                navigate('/')
+                // navigate('/')
             } else{
-                navigate('/adm')
+                // navigate('/adm')
             }
 
         }catch{
@@ -46,13 +46,13 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
         localStorage.removeItem('user@ID');
         setCurrentUser(null)
         toast.success('Logout realizado')
-        navigate('/')
+        // navigate('/')
     }
     const createUser = async (formData: TGuestRegisterSchema) => {
         const {confirmPassword, ...newFormData} = formData
 
         try{
-            await api.post('/users', newFormData);
+            await api.post('users/', newFormData);
             toast.success('Conta criada com sucesso!')
             if(formData.username && formData.password ){
 
@@ -73,7 +73,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
 
     const updateUser = async (formData: TGuestRegisterSchema, user_id: string) => {
         try{
-            await api.put(`/users/${user_id}`, formData,
+            await api.put(`users/${user_id}/`, formData,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -86,7 +86,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     }
     const deleteUser = async (user_id: string) => {
         try{
-            await api.delete(`/users/${user_id}`,{
+            await api.delete(`users/${user_id}/`,{
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -96,13 +96,10 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             toast.error(`${err}`)
         }
     }
-    const getAllHotels = async () => {
-        const { data } = await api.get<IHotel[]>('/hotels');
-        setHotelsList(data)
-    }
+   
     const getHotelById = async (hotel_id: string) => {
         try{
-            const { data } = await api.get<IHotel | null>(`/hotels/${hotel_id}`);
+            const { data } = await api.get<IHotel | null>(`hotel/${hotel_id}/`);
             setHotel(data)
             setSuggestedHotels(HotelsList.filter(element => element.id !== hotel_id))
 
@@ -111,15 +108,10 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
         }
     }
 
-    const getAllBedrooms = async () => {
-        const { data } = await api.get<IBedroom[]>('/bedrooms');
-        setBedroomsList(data)
-    }
-
     //Reservation Requests
     const createReservation = async (formData: TReservationSchema) => {
         try {
-            const { data } = await api.post('/bookings', formData,{
+            const { data } = await api.post('bookings/', formData,{
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -133,7 +125,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     }
     const updateReservation = async (formData:string, booking_id: string) => {
         try {
-            const { data } = await api.patch(`/bookings/${booking_id}`, formData,{
+            const { data } = await api.patch(`bookings/${booking_id}/`, formData,{
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -150,6 +142,14 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
 
     useEffect(() => {
         try{
+            const getAllHotels = async () => {
+                const { data } = await api.get<IHotel[]>('hotel/');
+                setHotelsList(data)
+            }
+            const getAllBedrooms = async () => {
+                const { data } = await api.get<IBedroom[]>('bedroom/');
+                setBedroomsList(data)
+            }
             getAllHotels();
             getAllBedrooms();
         }catch{
@@ -159,7 +159,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
         let user = localStorage.getItem('user@INFO');
         if(user){
             setCurrentUser(JSON.parse(user))
-            navigate('/')
+            // navigate('/')
         }
         
     }, [])
@@ -171,7 +171,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             createUser,
             updateUser,
             deleteUser,
-            getAllHotels,
+            // getAllHotels,
             getHotelById,
             CurrentUser,
             HotelsList,
@@ -182,7 +182,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             setSuggestedHotels,
             BedroomsList,
             setBedroomsList,
-            getAllBedrooms,
+            // getAllBedrooms,
             createReservation,
             updateReservation,
             isLoginModalOpen,
