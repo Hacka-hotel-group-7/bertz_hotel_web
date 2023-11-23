@@ -45,7 +45,7 @@ export interface IUser {
 
 export interface IBedroom {
     id: string
-    status: number
+    status: string
     image: string
     room_type: string
     bed_number: number
@@ -72,10 +72,10 @@ export interface IService {
 export interface IReservation{
     id: string
     checkin_date: string
-    checkout_date: string
+    checkout_date: string | null
     status: string
     paid: boolean
-    payment_method: string
+    payment_method: string | null
     total: number
     guest: IUser
     bedroom: IBedroom
@@ -107,4 +107,5 @@ export interface IGlobalContext {
     updateReservation: (formData: string, booking_id: string) => void
     isLoginModalOpen: boolean
     setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    AllBedroomsList: IBedroom[]
 }

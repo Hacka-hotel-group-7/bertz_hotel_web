@@ -17,6 +17,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     const [Hotel, setHotel] = useState<IHotel | null>(null)
     const [SuggestedHotels, setSuggestedHotels] = useState<IHotel[]>([])
     const [BedroomsList, setBedroomsList] = useState<IBedroom[]>([])
+    const [AllBedroomsList, setAllBedroomsList] = useState<IBedroom[]>([])
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
     const navigate = useNavigate();
@@ -49,7 +50,6 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     }
     const createUser = async (formData: TGuestRegisterSchema) => {
         const {confirmPassword, ...newFormData} = formData
-
         try{
             await api.post('users/', newFormData);
             toast.success('Conta criada com sucesso!')
@@ -62,7 +62,6 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     
                await login(loginBody)
             }
-
             
         }catch(err){
             toast.error(`${err}`)
@@ -70,7 +69,6 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
        
     }
     
-
     const updateUser = async (formData: TGuestRegisterSchema, user_id: string) => {
         try{
             await api.put(`users/${user_id}/`, formData,
@@ -148,8 +146,11 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             }
             const getAllBedrooms = async () => {
                 const { data } = await api.get<IBedroom[]>('bedroom/');
-                setBedroomsList(data)
+                setAllBedroomsList(data)
+                const avaliableBedrooms = data.filter(element => element.status == 'disponível')
+                setBedroomsList(avaliableBedrooms)
             }
+
             getAllHotels();
             getAllBedrooms();
 
@@ -191,7 +192,8 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             createReservation,
             updateReservation,
             isLoginModalOpen,
-            setIsLoginModalOpen
+            setIsLoginModalOpen,
+            AllBedroomsList
 
         }}>
             {children}

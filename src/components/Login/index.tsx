@@ -35,7 +35,7 @@ export const LoginModal = () => {
                     <button type="submit">Entrar</button>
                 </form>
                 <StyledP fontSize="small" fontWeight="normal">Não possui uma conta?</StyledP>
-                <button /*onClick={() => navigate('/register')}*/>Faça seu cadastro</button>
+                <button onClick={() => navigate('/register')}>Faça seu cadastro</button>
                 
                 
             </div>
