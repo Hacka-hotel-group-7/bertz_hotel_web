@@ -6,6 +6,7 @@ import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
 import { TLogin, LoginSchema} from "./LoginSchema";
 import { StyledH3, StyledP } from "../../styles/typography"
 import { InputComponent } from "../Input";
+
 export const LoginModal = () => {
     const { login, setIsLoginModalOpen } = useContext(GlobalContext)
     const navigate = useNavigate()
