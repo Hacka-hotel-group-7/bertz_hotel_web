@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { StyledH3, StyledP, StyledH1 } from "../../styles/typography";
 import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
-import { HotelStyled, RoomsStyled } from "./styles";
+import { Link } from 'react-router-dom';
 
 export const IconsHotel = () => {
   const { HotelsList } = useContext(GlobalContext);
@@ -15,43 +15,46 @@ export const IconsHotel = () => {
             <div>
               <StyledH3 fontWeight="normal">{object.description}</StyledH3>
 
-              <StyledP fontWeight="normal" fontSize="small">
-                {object.address}
-              </StyledP>
-            </div>
-          </li>
-        ))
-      ) : (
-        <StyledH1 fontWeight="bold">Carregando...</StyledH1>
-      )}
-    </HotelStyled>
-  );
-};
+                        <StyledP fontWeight="normal"
+                        fontSize="small">
+                            {object.address}
+                        </StyledP>
+                    </div>
+                    <Link to={`/hotel/${object.id}`}>Veja mais</Link>
+                    </li>
+    
+            )) ): ( 
+                <StyledH1 fontWeight="bold">
+                    Carregando...
+                </StyledH1>
+            )
+                
+            }
+        </ul>
+    )
+}
 
-export const IconsRoom = () => {
-  const { BedroomsList } = useContext(GlobalContext);
-  console.log(BedroomsList);
+export const IconsRoom =()=> {
 
-  return (
-    <RoomsStyled>
-      {BedroomsList.length > 0 ? (
-        BedroomsList.map((object) => (
-          <li key={object.id}>
-            <img src={object.image} alt={object.room_type} />
-            <div>
-              <StyledH3 fontWeight="normal">{object.room_type}</StyledH3>
-              <StyledP fontWeight="normal" fontSize="medium">
-                {object.bed_number} camas
-              </StyledP>
-              <StyledP fontWeight="normal" fontSize="medium">
-                R${object.price},OO por noite
-              </StyledP>
-            </div>
-          </li>
-        ))
-      ) : (
-        <StyledH1 fontWeight="bold">Carregando...</StyledH1>
-      )}
-    </RoomsStyled>
-  );
-};
+    const { BedroomsList } = useContext(GlobalContext);
+
+    return(
+        <ul>{BedroomsList.length > 0 ? (
+             BedroomsList.map((object) => (
+                <li key={object.id}>
+                    <img src = {object.image} alt={object.room_type} />
+                    <div>
+                        <StyledH3 fontWeight="normal">
+                            {object.room_type}
+                        </StyledH3>
+                        <StyledP fontWeight="normal" fontSize="medium">{object.bed_number} camas</StyledP>
+                        <StyledP fontWeight="normal" fontSize="medium">R${object.price},OO por noite</StyledP>
+                    </div>
+                    <Link to={`/booking/${object.id}`}>Faça sua Reserva</Link>
+
+                </li>
+            ))
+        ): (
+            <StyledH1 fontWeight="bold">Carregando...</StyledH1>
+        )}
+

@@ -32,4 +32,6 @@ export interface IAdmContext{
     setUserList: React.Dispatch<React.SetStateAction<IUser[]>>
     createService: (formData: string) => void
     deleteService: (service_id: string) => void
+    PromotionsList: IPromotion[]
+    setPromotionsList: React.Dispatch<React.SetStateAction<IPromotion[]>>
 }

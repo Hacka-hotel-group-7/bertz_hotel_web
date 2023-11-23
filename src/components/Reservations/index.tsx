@@ -8,7 +8,7 @@ import { StyledH1 } from "../../styles/typography";
 import { InputComponent } from "../Input";
 
 export const ReservationPage = () =>{
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const { createReservation } = useContext(GlobalContext)
 
     const { register, handleSubmit, formState: { errors }} = useForm<TReservationSchema>({

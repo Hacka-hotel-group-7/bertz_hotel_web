@@ -90,12 +90,11 @@ export interface IReview{
 export interface IGlobalContext {
     login: (formData: TLogin) => void
     logOut: () => void
-    // getAllHotels: () => void
     createUser: (formData: TGuestRegisterSchema) => void
     updateUser: (formData: TGuestRegisterSchema, user_id: string) => void
     deleteUser: (user_id: string) => void
     getHotelById: (hotel_id: string) => void
-    CurrentUser: ICurrentUser | null   
+    CurrentUser: ICurrentUser | null 
     HotelsList: IHotel[]
     setHotelsList: React.Dispatch<React.SetStateAction<IHotel[]>>    
     Hotel: IHotel | null
