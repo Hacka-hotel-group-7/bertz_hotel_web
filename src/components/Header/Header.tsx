@@ -7,8 +7,8 @@ import { LoginModal } from "../Login/index";
 
 const Header = () => {
 
-    const { isLoginModalOpen, setIsLoginModalOpen, CurrentUser} = useContext(GlobalContext)
-    console.log(CurrentUser)
+    const { isLoginModalOpen, setIsLoginModalOpen} = useContext(GlobalContext)
+   
   return (
     <HeaderStyled>
       <div className="header_container">
