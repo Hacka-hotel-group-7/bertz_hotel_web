@@ -42,8 +42,6 @@ export const IconsHotel =()=> {
 export const IconsRoom =()=> {
 
     const { BedroomsList } = useContext(GlobalContext);
-    console.log(BedroomsList)
-
 
     return(
         <ul>{BedroomsList.length > 0 ? (

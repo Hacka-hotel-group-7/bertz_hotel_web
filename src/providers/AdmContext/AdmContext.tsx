@@ -4,6 +4,7 @@ import { IHotel, IBedroom, IPromotion, IUser, IReservation, IService } from "../
 import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { GlobalContext } from "../GlobalContext/GlobalContext";
+import { useEffect } from "react";
 
 export const AdmContext = createContext({} as IAdmContext);
 
@@ -219,6 +220,44 @@ export const AdmProvider = ({ children }: IAdmProviderProps) => {
         
     }
 
+    useEffect(() => {
+        try {
+
+            const getAllReservations = async () => {
+                    const { data } = await api.get<IReservation[]>('/bookings', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    setAllReservations(data)        
+            }
+            const getAllUsers = async () => {
+                    const { data } = await api.get<IUser[]>('staff/', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    setUserList(data)
+            }
+            const getPromotion = async () => {
+                    const { data } = await api.get<IPromotion[]>('/discounts', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+        
+                    setPromotionsList(data)
+                
+            }
+            
+            getAllReservations()
+            getAllUsers()
+            getPromotion()
+        } catch (error) {
+            toast.error(`${error}`)
+        }
+        
+    },[])
 
     return(
         <AdmContext.Provider value={{
@@ -241,7 +280,9 @@ export const AdmProvider = ({ children }: IAdmProviderProps) => {
             UserList,
             setUserList,
             createService,
-            deleteService
+            deleteService, 
+            PromotionsList,
+            setPromotionsList
         }}>
             {children}
         </AdmContext.Provider>

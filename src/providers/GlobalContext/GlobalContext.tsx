@@ -4,7 +4,7 @@ import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { TLogin } from "../../components/Login/LoginSchema";
-import { IGlobalContext, IGlobalProviderProps, ICurrentUser, IHotel, IBedroom } from "./@types";
+import { IGlobalContext, IGlobalProviderProps, ICurrentUser, IHotel, IBedroom, IUser } from "./@types";
 import { TGuestRegisterSchema } from "../../components/Register/RegisterSchema";
 import { TReservationSchema } from "../../components/Reservations/ReservationSchema";
 
@@ -28,11 +28,8 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             localStorage.setItem('user@TOKEN', data.access);
             const decoded = jwtDecode<ICurrentUser>(data.access);
             localStorage.setItem('user@INFO', JSON.stringify(decoded));
-            console.log(decoded)
-            console.log(data)
             toast.success('Login efetuado com sucesso!');
             setCurrentUser(decoded)
-
             if (decoded.role === 'hospede'){
                 navigate('/user')
             } else{
@@ -72,6 +69,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
         }
        
     }
+    
 
     const updateUser = async (formData: TGuestRegisterSchema, user_id: string) => {
         try{
@@ -142,7 +140,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     }
 
 
-    useEffect(() => {
+    useEffect( () => {
         try{
             const getAllHotels = async () => {
                 const { data } = await api.get<IHotel[]>('hotel/');
@@ -154,14 +152,21 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             }
             getAllHotels();
             getAllBedrooms();
+
+            let user = localStorage.getItem('user@INFO')
+            if(user){
+                const currentUser = JSON.parse(user)
+                setCurrentUser(currentUser)
+
+                if(currentUser.role === 'hospede'){
+                    navigate('/user')
+                }else{
+                    navigate('/adm/dashboard')
+                }
+            }
+        
         }catch{
             toast.error('Não foi possível buscar os hoteis')
-        }
-        
-        let user = localStorage.getItem('user@INFO');
-        if(user){
-            setCurrentUser(JSON.parse(user))
-            navigate('/')
         }
         
     }, [])
