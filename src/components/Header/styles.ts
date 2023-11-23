@@ -4,6 +4,8 @@ export const HeaderStyled = styled.header`
   width: 100%;
   background-color: var(--background);
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+  position: fixed;
+  z-index: 1;
 
   .header_container {
     display: flex;
