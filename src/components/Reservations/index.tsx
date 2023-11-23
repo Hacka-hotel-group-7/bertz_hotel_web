@@ -6,6 +6,7 @@ import { useContext } from "react"
 import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
 import { StyledH1 } from "../../styles/typography";
 import { InputComponent } from "../Input";
+import { toast } from "react-toastify";
 
 export const ReservationPage = () =>{
     const navigate = useNavigate()

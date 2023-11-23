@@ -4,8 +4,9 @@ import { HeaderStyled } from "./styles";
 import { useContext } from "react";
 import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
 import { LoginModal } from "../Login/index";
-
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+    const navigate = useNavigate();
 
     const { isLoginModalOpen, setIsLoginModalOpen} = useContext(GlobalContext)
    
@@ -16,7 +17,8 @@ const Header = () => {
         <nav className="menu">
           <ul>
             <li>
-              <StyledH3 fontWeight="semibold">Início</StyledH3>
+              <button onClick={() => navigate("/")}><StyledH3 fontWeight="semibold">Início</StyledH3></button>
+              
             </li>
             <li>
               <StyledH3 fontWeight="semibold">Sobre</StyledH3>
@@ -28,7 +30,7 @@ const Header = () => {
           </ul>
         </nav>
         <div className="menu_buttons">
-          <ButtonStyled>Cadastre-se</ButtonStyled>
+          <ButtonStyled onClick={() => navigate("/register")}>Cadastre-se</ButtonStyled>
           <button className="drop_menu" onClick={() => setIsLoginModalOpen(!isLoginModalOpen)}>
             <img src="../../public/gg_menu.png" alt="" />
             <img src="/user.png" alt="" />
