@@ -15,6 +15,7 @@ const AdmDashboard = () => {
     const [user, setUser] = useState<IUser | null>(null)
     const token = localStorage.getItem('user@TOKEN')
     const { CurrentUser, HotelsList, BedroomsList} = useContext(GlobalContext);
+    const [dashboard, setDashboard] = useState<"hotels" | "users"| "promotions"| "reservations" |"bedrooms" |''>('')
     const { PromotionsList, AllReservations, UserList } = useContext(AdmContext);
     console.log(PromotionsList)
     console.log(AllReservations)
@@ -55,7 +56,56 @@ const AdmDashboard = () => {
     return(
         <>
         <Header/>
-            <StyledH1 fontWeight="extrabold">{user?.name}</StyledH1>
+          <main>
+            <div>
+              <StyledH1 fontWeight="extrabold">{user?.name}</StyledH1>
+            </div>
+            <section>
+              <div className="buttonsDiv">
+                <ButtonStyled onClick={() => setDashboard('hotels')}>Hotéis</ButtonStyled>
+                <ButtonStyled onClick={() => setDashboard('bedrooms')}>Quartos</ButtonStyled>
+                <ButtonStyled onClick={() => setDashboard('reservations')}>Reservas</ButtonStyled>
+                <ButtonStyled onClick={() => setDashboard('promotions')}>Promoções</ButtonStyled>
+                <ButtonStyled onClick={() => setDashboard('users')}>Usuários</ButtonStyled>
+              </div>
+
+              <div>
+                {dashboard === 'hotels' ? HotelsList.map((hotel) => (
+                  <div key={hotel.id}>
+                    <h1>{hotel.description}</h1>
+                  </div>
+                )): null}
+                {dashboard === 'bedrooms' ? BedroomsList.map((bedroom) => (
+                  <div key={bedroom.id}>
+                    <h1>{bedroom.room_type}</h1>
+                  </div>
+                )): null}
+                {dashboard === 'reservations' ? AllReservations.map((reservation) => (
+                  <div key={reservation.id}>
+                    <h1>{reservation.checkin_date}</h1>
+                  </div>
+                )): null}
+                {dashboard === 'promotions'? PromotionsList.map((promotion) => (
+                  <div key={promotion.id}>
+                    <h1>{promotion.name}</h1>
+                  </div>
+                )): null}
+                {dashboard === 'users'? UserList.map((user) => (
+                  <div key={user.id}>
+                    <h1>{user.name}</h1>
+                  </div>
+                )): null}
+              </div>
+
+
+            </section>
+
+          </main>
+            
+
+
+
+
 
 
         <Footer/>
