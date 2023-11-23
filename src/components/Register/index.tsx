@@ -6,8 +6,8 @@ import { useContext } from 'react';
 import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
 import { StyledH1 } from "../../styles/typography";
 import { InputComponent, SelectComponent } from "../Input";
-export const ResgisterPage = () => {
-    // const navigate = useNavigate();
+export const RegisterForm = () => {
+    const navigate = useNavigate();
 
     const { createUser } = useContext(GlobalContext)
     const { register, handleSubmit, formState: { errors } } = useForm<TGuestRegisterSchema>({
@@ -16,7 +16,7 @@ export const ResgisterPage = () => {
 
     const submit = (formData: TGuestRegisterSchema) => {
         createUser(formData)
-        // navigate('/')
+        navigate('/')
     }
 
     return(

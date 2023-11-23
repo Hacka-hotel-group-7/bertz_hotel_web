@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { StyledH3, StyledP, StyledH1 } from "../../styles/typography"
 import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
+import { Link } from 'react-router-dom';
 
 
 export const IconsHotel =()=> {
@@ -24,6 +25,7 @@ export const IconsHotel =()=> {
                             {object.address}
                         </StyledP>
                     </div>
+                    <Link to={`/hotel/${object.id}`}>Veja mais</Link>
                     </li>
     
             )) ): ( 
@@ -55,6 +57,8 @@ export const IconsRoom =()=> {
                         <StyledP fontWeight="normal" fontSize="medium">{object.bed_number} camas</StyledP>
                         <StyledP fontWeight="normal" fontSize="medium">R${object.price},OO por noite</StyledP>
                     </div>
+                    <Link to={`/booking/${object.id}`}>Faça sua Reserva</Link>
+
                 </li>
             ))
         ): (

@@ -1,40 +1,36 @@
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
+import { ReservationPage } from "../../components/Reservations";
+import { useContext } from "react";
+import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
+import { StyledH1, StyledP } from "../../styles/typography";
+import { useNavigate } from "react-router-dom";
+import { ButtonStyled } from "../../components/Button/Style";
 
-function ReservationForm() {
+const ReservationForm = () => {
+  const navigate = useNavigate();
+  const { CurrentUser, isLoginModalOpen, setIsLoginModalOpen } = useContext(GlobalContext);
+
+
   return (
     <>
       <Header />
       <main>
-        <div>
-          <h2>Formulário de Reserva</h2>
-          <form action="">
-            AQUI VAI O FORMULÁRIO DE RESERVA
-            <button>Confirmar Reserva</button>
-          </form>
-        </div>
-        <div>
-          <div>
-            <img src="Foto do Hotel" alt="" />
+        { CurrentUser ? (
             <div>
-              <p>Nome do Hotel</p>
-              <p>Endereço</p>
-              <div>
-                <span>2 Camas</span>
-                <span>Suíte</span>
-                <span>Estacionamento</span>
-              </div>
+            <ReservationPage />
+          </div>
+          ) : (
+            <div>
+              <StyledH1 fontWeight="bold">Faça login para fazer sua reserva</StyledH1>
+              <ButtonStyled onClick={() => setIsLoginModalOpen(!isLoginModalOpen)}>Login</ButtonStyled>
+              <StyledP fontSize="small" fontWeight="normal">Não possui uma conta?</StyledP>
+              <ButtonStyled onClick={() => navigate("/register")}>Crie sua conta</ButtonStyled>
+              
             </div>
-          </div>
-          <div>
-            <h4>Ideal para:</h4>
-            <ol>
-              <li>Turismo</li>
-              <li>Trabalho</li>
-              <li>Eventos</li>
-            </ol>
-          </div>
-        </div>
+          )
+        }
+        
       </main>
       <Footer />
     </>
