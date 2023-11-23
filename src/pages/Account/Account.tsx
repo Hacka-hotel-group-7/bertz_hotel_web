@@ -14,6 +14,7 @@ const Account = () => {
   const [user, setUser] = useState<IUser | null>(null)
   const token = localStorage.getItem('user@TOKEN')
   const { CurrentUser} = useContext(GlobalContext);
+  const [userSettings, setUserSettings] = useState<'reservations' | 'reviews' | '' >('')
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -55,33 +56,19 @@ const Account = () => {
           <div>
             <img src="/user.png" alt="User" />
           </div>
-          <div>
-            <h3>Olá, {user?.name}</h3>
-            <ButtonStyled>Editar conta</ButtonStyled>
             <div>
-              <img src="Star" alt="" />
-              <span>Número de reviews</span>
-              <span>Reviews</span>
-            </div>
-            <div>
-              <div>
-                <img src="Foto perfil" alt="" />
-                <div>
-                  <p>Nome perfil</p>
-                  <p>Data do review</p>
-                  <img src="Icone Editar" alt="" />
+              <h3>Olá, {user?.name}</h3>
+              <ButtonStyled>Editar conta</ButtonStyled>
+                <div className="menu_buttons">
+                 <ButtonStyled onClick={() => setUserSettings('reservations')}>Suas Reservas</ButtonStyled>
+                 <ButtonStyled onClick={() => setUserSettings('reviews')}>Seus Comentários</ButtonStyled>
                 </div>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-              </div>
             </div>
-          </div>
+
           <div>
-            <ButtonStyled>Suas Reservas</ButtonStyled>
+            
             <ul>
-              { user ? user.reservations.map((reservation) => (
+              { user && userSettings === 'reservations' ? user.reservations.map((reservation) => (
                 <li key={reservation.id}>
                     <StyledP fontWeight="bold" fontSize="medium">Quarto: {reservation.bedroom.room_type}</StyledP>
                     <img src={reservation.bedroom.image} alt="Imagem do quarto" />
@@ -93,8 +80,14 @@ const Account = () => {
                     <p>Total: {reservation.total}</p>
                 </li>
               )) : null
-                    
               }
+              { user && userSettings === 'reviews' ? user.reviews.map((review) => (
+                <li key={review.id}>
+                    <p>Avaliação: {review.classification}</p>
+                    <p>Comentário: {review.comments}</p>
+                </li>
+              )): null}
+
             </ul>
           </div>
         </main>
