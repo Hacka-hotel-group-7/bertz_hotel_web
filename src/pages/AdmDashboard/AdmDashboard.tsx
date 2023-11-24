@@ -17,9 +17,6 @@ const AdmDashboard = () => {
     const { CurrentUser, HotelsList, BedroomsList} = useContext(GlobalContext);
     const [dashboard, setDashboard] = useState<"hotels" | "users"| "promotions"| "reservations" |"bedrooms" |''>('')
     const { PromotionsList, AllReservations, UserList } = useContext(AdmContext);
-    console.log(PromotionsList)
-    console.log(AllReservations)
-    console.log(UserList)
     const navigate = useNavigate();
 
   useEffect(() => {

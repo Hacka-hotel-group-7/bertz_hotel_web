@@ -6,6 +6,7 @@ import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
 import { TLogin, LoginSchema} from "./LoginSchema";
 import { StyledH3, StyledP } from "../../styles/typography"
 import { InputComponent } from "../Input";
+import { ButtonStyled } from "../Button/Style";
 
 export const LoginModal = () => {
     const { login, setIsLoginModalOpen } = useContext(GlobalContext)
@@ -17,7 +18,6 @@ export const LoginModal = () => {
 
     const submit = (formData: TLogin) => {
         login(formData)
-        navigate('/')
         setIsLoginModalOpen(false)
     }
 
@@ -39,6 +39,23 @@ export const LoginModal = () => {
                 
                 
             </div>
+        </>
+    )
+}
+
+export const LogoutModal = () => {
+    const { logOut, setIsLoginModalOpen, isLoginModalOpen} = useContext(GlobalContext)
+    const user = localStorage.getItem('user@NAME')
+    const navigate = useNavigate()
+
+    return(
+        <>
+            <div>
+                <StyledH3 fontWeight="bold">{user}</StyledH3>
+                <ButtonStyled onClick={() => navigate('/user')}>Perfil</ButtonStyled>
+                <ButtonStyled onClick={() => {logOut(); setIsLoginModalOpen(!isLoginModalOpen) }}>Sair</ButtonStyled>
+            </div>
+        
         </>
     )
 }

@@ -1,13 +1,13 @@
 import { StyledH3, StyledP } from "../../styles/typography";
 import { FooterStyled } from "./styles";
 
-function Footer() {
+const  Footer = () => {
   return (
     <FooterStyled>
       <section className="footer_container">
         <div className="logo_div">
           <img
-            src="../../../public/Imperial2.png"
+            src="/Imperial2.png"
             alt="Logo do The Bertz Hotel"
           />
           <StyledP fontSize="small" fontWeight="normal">

@@ -4,8 +4,6 @@ import { HomeStyled } from "./styles";
 import { IconsHotel, IconsRoom } from "../../components/Icons/Icons";
 
 const Home = () => {
-
-
   return (
     <>
       <Header />
@@ -30,7 +28,7 @@ const Home = () => {
         <h2>Melhores quartos</h2>
         <IconsRoom/>
       </HomeStyled>
-      <Footer />
+      <Footer/>
     </>
   );
 }

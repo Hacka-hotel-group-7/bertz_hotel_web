@@ -9,17 +9,17 @@ import { useEffect, useState } from "react";
 import { IUser } from "../../providers/GlobalContext/@types";
 import { toast } from "react-toastify";
 import { api } from "../../services/api";
+import { EditProfile } from "../../components/EditProfile";
+import { ReservationsIcons } from "../../components/userIcons/reservation";
+import { CreateReview, EditReview } from "../../components/userIcons/reviews";
 
 const Account = () => {
   const [user, setUser] = useState<IUser | null>(null)
   const token = localStorage.getItem('user@TOKEN')
-  const { CurrentUser, HotelsList, BedroomsList} = useContext(GlobalContext);
-  const [userSettings, setUserSettings] = useState<'reservations' | 'createReservation' | 'reviews' | 'createReviews' |'' >('')
-  const [ isSettingsModalOpen, setIsSettingsModalOpen ] = useState(false)
-  const [ isReviewModalOpen, setIsReviewModalOpen ] = useState(false)
-  const [ isReservationModalOpen, setIsReservationModalOpen ] = useState(false)
-  const [isCreateReviewModalOpen, setIsCreateReviewModalOpen] = useState(false)
+  const { CurrentUser, HotelsList, BedroomsList, isReviewModalOpen, setIsReviewModalOpen, isCreateReviewModalOpen, setIsCreateReviewModalOpen} = useContext(GlobalContext);
+  const [userSettings, setUserSettings] = useState<'reservations' | 'createReservation' | 'reviews' | 'createReviews' |'editProfile'|'' >('')
   const navigate = useNavigate();
+ 
 
   useEffect(() => {
     if(CurrentUser){
@@ -62,7 +62,7 @@ const Account = () => {
           </div>
           <div>
             <h3>Olá, {user?.name}</h3>
-            <ButtonStyled>Editar conta</ButtonStyled>
+            <ButtonStyled onClick={() => setUserSettings('editProfile')}>Editar conta</ButtonStyled>
             <div className="menu_buttons">
               <ButtonStyled onClick={() => setUserSettings('reservations')}>Suas Reservas</ButtonStyled>
               <ButtonStyled onClick={() => setUserSettings('createReservation')}>Faça uma reserva</ButtonStyled>
@@ -73,18 +73,13 @@ const Account = () => {
 
           <div>
             <ul>
+              { user && userSettings === 'editProfile' ? (
+                <EditProfile user={user}/>
+                ) : null
+              }
+
               { user && userSettings === 'reservations' && user.reservations.length > 0 ? user.reservations.map((reservation) => (
-                  <li key={reservation.id}>
-                    <StyledP fontWeight="bold" fontSize="medium">Quarto: {reservation.bedroom.room_type}</StyledP>
-                    <img src={reservation.bedroom.image} alt="Imagem do quarto" />
-                    <p>Check-in: {reservation.checkin_date}</p>
-                    <p>Check-out: {reservation.checkout_date ? reservation.checkout_date : "Não informado"}</p>
-                    <p>Status: {reservation.status}</p>
-                    <p>Pago: {reservation.paid ? "Sim" : "Não"}</p>
-                    <p>Forma de pagamento: {reservation.payment_method ? reservation.payment_method : "Não informado"}</p>
-                    <p>Total: {reservation.total}</p>
-                    <ButtonStyled onClick={() => setIsReservationModalOpen(true)}>Editar sua Reserva</ButtonStyled>
-                  </li>
+                  <ReservationsIcons reservation={reservation}/>
                 )) : user && userSettings === 'reservations' && user.reservations.length === 0 ? (
                   <StyledH2 fontWeight="extrabold">Você ainda não possui reservas</StyledH2>
                 ) :
@@ -95,7 +90,11 @@ const Account = () => {
                   <li key={review.id}>
                     <p>Avaliação: {review.classification}</p>
                     <p>Comentário: {review.comments}</p>
-                    <ButtonStyled onClick={() => setIsReviewModalOpen(true)}>Editar sua avaliação</ButtonStyled>
+                    <ButtonStyled onClick={() =>{
+                      setIsReviewModalOpen(!isReviewModalOpen),
+                      localStorage.setItem('review', JSON.stringify(review))
+                    } 
+                    }>Editar sua avaliação</ButtonStyled>
                   </li>
                 )) : user && userSettings === 'reviews' && user.reviews.length === 0 ? (
                   <StyledH2 fontWeight="extrabold">Você ainda não fez comentários</StyledH2>
@@ -118,12 +117,22 @@ const Account = () => {
                   <li key={hotel.id}>
                     <StyledH3 fontWeight="bold">{hotel.description}</StyledH3>
                     <img src={hotel.images[0].image} alt="Imagem do quarto" />
-                    <ButtonStyled onClick={() => setIsCreateReviewModalOpen(true)}>Crie sua avaliação</ButtonStyled>
+                    <ButtonStyled onClick={(e) =>{
+                      e.preventDefault();
+                      setIsCreateReviewModalOpen(!isCreateReviewModalOpen);
+                      localStorage.setItem('hotel', hotel.id)}
+                    } >Crie sua avaliação</ButtonStyled>
                   </li>
                 ))
               ):null}
             </ul>
           </div>
+        { isReviewModalOpen && (
+          <EditReview review={JSON.parse(localStorage.getItem('review')!)}/>
+        )}
+        { isCreateReviewModalOpen && (
+          <CreateReview hotelId={localStorage.getItem('hotel')!}/>
+        )}
         </main>
       <Footer />
       </>

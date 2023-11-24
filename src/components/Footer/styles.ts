@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 
 export const FooterStyled = styled.footer`
   background-color: var(--background-2);
-  position: fixed;
 
   .footer_container {
     display: flex;

@@ -1,6 +1,7 @@
 import { TLogin } from "../../components/Login/LoginSchema";
 import { TGuestRegisterSchema } from "../../components/Register/RegisterSchema";
 import { TReservationSchema } from "../../components/Reservations/ReservationSchema";
+import { TReviewSchema } from "../../components/userIcons/reviews/ReviewSchema";
 
 export interface IGlobalProviderProps {
     children: React.ReactNode
@@ -95,6 +96,7 @@ export interface IGlobalContext {
     deleteUser: (user_id: string) => void
     getHotelById: (hotel_id: string) => void
     CurrentUser: ICurrentUser | null 
+    setCurrentUser: React.Dispatch<React.SetStateAction<ICurrentUser | null>>
     HotelsList: IHotel[]
     setHotelsList: React.Dispatch<React.SetStateAction<IHotel[]>>    
     Hotel: IHotel | null
@@ -108,4 +110,12 @@ export interface IGlobalContext {
     isLoginModalOpen: boolean
     setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>
     AllBedroomsList: IBedroom[]
+    createReview: (formData: TReviewSchema, hotel_id: string) => void
+    deleteReview: (review_id: string) => void
+    updateReview: (formData: TReviewSchema, review_id: string) => void
+    isReviewModalOpen: boolean
+    setIsReviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    isCreateReviewModalOpen: boolean
+    setIsCreateReviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    
 }
