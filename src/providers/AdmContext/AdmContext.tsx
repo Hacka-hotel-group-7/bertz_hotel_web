@@ -5,6 +5,7 @@ import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { GlobalContext } from "../GlobalContext/GlobalContext";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AdmContext = createContext({} as IAdmContext);
 
@@ -15,8 +16,9 @@ export const AdmProvider = ({ children }: IAdmProviderProps) => {
     const [UserList, setUserList] = useState<IUser[]>([])
     const [isEditHotelOpen, setIsEditHotelOpen] = useState(false)
     const [isEditRoomOpen, setIsEditRoomOpen] = useState(false)
+    const navigate = useNavigate()
 
-    const { HotelsList, setHotelsList } = useContext(GlobalContext)
+    const { HotelsList, setHotelsList, CurrentUser, setCurrentUser } = useContext(GlobalContext)
     //Hotel Requests
     const createHotel = async (formData: THotelPartial) => {
         try{
@@ -253,6 +255,17 @@ export const AdmProvider = ({ children }: IAdmProviderProps) => {
             getAllReservations()
             getAllUsers()
             getPromotion()
+            let user = localStorage.getItem('user@INFO')
+            if(user && CurrentUser){
+                const currentUser = JSON.parse(user)
+                setCurrentUser(currentUser)
+
+                if(currentUser.role === 'hospede'){
+                    navigate('/user')
+                }else{
+                    navigate('/adm/dashboard')
+                }
+            }
         } catch (error) {
             toast.error(`${error}`)
         }

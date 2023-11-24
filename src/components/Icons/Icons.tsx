@@ -44,7 +44,8 @@ export const IconsRoom =()=> {
     const { BedroomsList } = useContext(GlobalContext);
 
     return(
-        <ul>{BedroomsList.length > 0 ? (
+        <ul>
+            {BedroomsList.length > 0 ? (
              BedroomsList.map((object) => (
                 <li key={object.id}>
                     <img src = {object.image} alt={object.room_type} />
@@ -62,8 +63,6 @@ export const IconsRoom =()=> {
         ): (
             <StyledH1 fontWeight="bold">Carregando...</StyledH1>
         )}
-
-
         </ul>
     )
 }

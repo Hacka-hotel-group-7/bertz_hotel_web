@@ -3,12 +3,12 @@ import { ButtonStyled } from "../Button/Style";
 import { HeaderStyled } from "./styles";
 import { useContext } from "react";
 import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
-import { LoginModal } from "../Login/index";
+import { LoginModal, LogoutModal } from "../Login/index";
 import { useNavigate } from "react-router-dom";
 const Header = () => {
     const navigate = useNavigate();
 
-    const { isLoginModalOpen, setIsLoginModalOpen} = useContext(GlobalContext)
+    const { CurrentUser, isLoginModalOpen, setIsLoginModalOpen} = useContext(GlobalContext)
    
   return (
     <HeaderStyled>
@@ -36,9 +36,13 @@ const Header = () => {
             <img src="/user.png" alt="" />
           </button>
         </div>
-        {isLoginModalOpen && (
+        { !CurrentUser && isLoginModalOpen && (
           <LoginModal/>
         )}
+        { CurrentUser && isLoginModalOpen && (
+          <LogoutModal/>
+        )}
+        
       </div>
     </HeaderStyled>
   );
