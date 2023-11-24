@@ -20,7 +20,9 @@ export const IconsHotel = () => {
                 {object.address}
               </StyledP>
             </div>
-            <Link to={`/hotel/${object.id}`}>Veja mais</Link>
+            <Link to={`/hotel/${object.id}`} className="home__link">
+              Veja mais
+            </Link>
           </li>
         ))
       ) : (
@@ -48,7 +50,9 @@ export const IconsRoom = () => {
                 R${object.price},OO por noite
               </StyledP>
             </div>
-            <Link to={`/booking/${object.id}`}>Faça sua Reserva</Link>
+            <Link to={`/booking/${object.id}`} className="room__link">
+              Faça sua Reserva
+            </Link>
           </li>
         ))
       ) : (

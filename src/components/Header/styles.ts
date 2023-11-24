@@ -7,6 +7,10 @@ export const HeaderStyled = styled.header`
   position: fixed;
   z-index: 1;
 
+  .home__button {
+    background-color: transparent;
+  }
+
   .header_container {
     display: flex;
     justify-content: space-between;
