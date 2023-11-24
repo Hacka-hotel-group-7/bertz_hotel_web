@@ -7,6 +7,7 @@ import { TLogin } from "../../components/Login/LoginSchema";
 import { IGlobalContext, IGlobalProviderProps, ICurrentUser, IHotel, IBedroom, IUser } from "./@types";
 import { TGuestRegisterSchema } from "../../components/Register/RegisterSchema";
 import { TReservationSchema } from "../../components/Reservations/ReservationSchema";
+import { TReviewSchema } from "../../components/userIcons/reviews/ReviewSchema";
 
 export const GlobalContext = createContext({} as IGlobalContext);
 
@@ -17,8 +18,10 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     const [Hotel, setHotel] = useState<IHotel | null>(null)
     const [SuggestedHotels, setSuggestedHotels] = useState<IHotel[]>([])
     const [BedroomsList, setBedroomsList] = useState<IBedroom[]>([])
+    const [AllBedroomsList, setAllBedroomsList] = useState<IBedroom[]>([])
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-
+    const [ isReviewModalOpen, setIsReviewModalOpen ] = useState(false)
+    const [isCreateReviewModalOpen, setIsCreateReviewModalOpen] = useState(false)
     const navigate = useNavigate();
 
     const login = async (formData: TLogin) => {
@@ -26,6 +29,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
         try{
             const { data } = await api.post('login/', formData);
             localStorage.setItem('user@TOKEN', data.access);
+            localStorage.setItem('user@NAME', formData.username);
             const decoded = jwtDecode<ICurrentUser>(data.access);
             localStorage.setItem('user@INFO', JSON.stringify(decoded));
             toast.success('Login efetuado com sucesso!');
@@ -43,13 +47,13 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     const logOut = () => {
         localStorage.removeItem('user@TOKEN');
         localStorage.removeItem('user@ID');
+        localStorage.removeItem('user@NAME');
         setCurrentUser(null)
         toast.success('Logout realizado')
         navigate('/')
     }
     const createUser = async (formData: TGuestRegisterSchema) => {
         const {confirmPassword, ...newFormData} = formData
-
         try{
             await api.post('users/', newFormData);
             toast.success('Conta criada com sucesso!')
@@ -62,7 +66,6 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
     
                await login(loginBody)
             }
-
             
         }catch(err){
             toast.error(`${err}`)
@@ -70,10 +73,9 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
        
     }
     
-
     const updateUser = async (formData: TGuestRegisterSchema, user_id: string) => {
         try{
-            await api.put(`users/${user_id}/`, formData,
+            await api.patch(`users/${user_id}/`, formData,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -139,6 +141,47 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
         }
     }
 
+    //Review Requests
+    const createReview = async (formData: TReviewSchema, hotel_id: string) => {
+        try {
+            await api.post(`reviews/${hotel_id}/`, formData,{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            toast.success('Revisão efetuada com sucesso!')
+            
+        } catch (error) {
+            toast.error(`${error}`)	            
+        }
+        
+    }
+
+    const updateReview = async (formData: TReviewSchema, review_id: string) => {
+        try {
+            await api.patch(`review/${review_id}/`, formData,{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            toast.success('Revisão atualizada com sucesso!')
+        } catch (error) {
+            toast.error(`${error}`)
+        }
+    }
+
+    const deleteReview = async (review_id: string) => {
+        try{
+            await api.delete(`review/${review_id}/`,{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            toast.success('Revisão excluída com sucesso!')
+        }catch(err){
+            toast.error(`${err}`)
+        }
+    }
 
     useEffect( () => {
         try{
@@ -148,13 +191,16 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             }
             const getAllBedrooms = async () => {
                 const { data } = await api.get<IBedroom[]>('bedroom/');
-                setBedroomsList(data)
+                setAllBedroomsList(data)
+                const avaliableBedrooms = data.filter(element => element.status == 'disponível')
+                setBedroomsList(avaliableBedrooms)
             }
+
             getAllHotels();
             getAllBedrooms();
 
             let user = localStorage.getItem('user@INFO')
-            if(user){
+            if(user && CurrentUser){
                 const currentUser = JSON.parse(user)
                 setCurrentUser(currentUser)
 
@@ -180,6 +226,7 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             deleteUser,
             getHotelById,
             CurrentUser,
+            setCurrentUser,
             HotelsList,
             setHotelsList,
             Hotel,
@@ -191,7 +238,14 @@ export const GlobalProvider = ({ children }: IGlobalProviderProps) => {
             createReservation,
             updateReservation,
             isLoginModalOpen,
-            setIsLoginModalOpen
+            setIsLoginModalOpen,
+            AllBedroomsList,
+            createReview,
+            updateReview,
+            deleteReview,
+            isReviewModalOpen, 
+            setIsReviewModalOpen,
+            isCreateReviewModalOpen, setIsCreateReviewModalOpen
 
         }}>
             {children}

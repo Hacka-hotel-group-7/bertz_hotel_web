@@ -16,7 +16,6 @@ export const RegisterForm = () => {
 
     const submit = (formData: TGuestRegisterSchema) => {
         createUser(formData)
-        navigate('/')
     }
 
     return(
@@ -37,36 +36,46 @@ export const RegisterForm = () => {
                 />
                 {errors.username?.message}
                 <InputComponent
-                    type="number"
-                    max={4}
+                    type="text"
                     placeholder="Código do País"
                     {...register('country_code')}
                 />
+                {errors.country_code?.message}
                 <InputComponent
-                    type="number"
+                    type="text"
                     placeholder="Telefone"
                     {...register('contact_info')}
                 />
                 {errors.contact_info?.message}
-                <SelectComponent {...register('document_type')}>
-                    <option value="" disabled selected>Selecione um setor</option>
+                <SelectComponent defaultValue={'CPF'} {...register('document_type')}>
+                    <option value="" disabled>Selecione um tipo de documento</option>
                     <option value="CPF">CPF</option>
                     <option value="RG">RG</option>
                     <option value="PASSAPORTE">Passaporte</option>
                     <option value="OUTRO">Outro</option>
                 </SelectComponent>
+                {errors.document_type?.message}
+                <InputComponent
+                    type="number"
+                    placeholder="Número do documento"
+                    {...register('document_number')}
+                />
+                {errors.document_number?.message}
                 <InputComponent
                     type="password"
                     placeholder="Senha"
                     {...register('password')}
                 />
+                {errors.password?.message}
                 <InputComponent
                     type="password"
                     placeholder="Confirmar Senha"
                     {...register('confirmPassword')}
                 />
                 {errors.confirmPassword?.message}
-                <button type="submit">Cadastrar</button>
+                <div>
+                    <button type="submit" >Cadastrar</button>
+                </div>
             </form>                 
            
         </>

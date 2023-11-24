@@ -2,20 +2,25 @@ import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import { useContext } from "react";
 import { GlobalContext } from "../../providers/GlobalContext/GlobalContext";
-import { StyledH1, StyledP } from "../../styles/typography";
+import { StyledH1, StyledH2, StyledH3, StyledP } from "../../styles/typography";
 import { ButtonStyled } from "../../components/Button/Style";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IUser } from "../../providers/GlobalContext/@types";
 import { toast } from "react-toastify";
 import { api } from "../../services/api";
+import { EditProfile } from "../../components/EditProfile";
+import { ReservationsIcons } from "../../components/userIcons/reservation";
+import { CreateReview, EditReview } from "../../components/userIcons/reviews";
 
 const Account = () => {
   const [user, setUser] = useState<IUser | null>(null)
   const token = localStorage.getItem('user@TOKEN')
-  const { CurrentUser} = useContext(GlobalContext);
+  const { CurrentUser, HotelsList, BedroomsList, isReviewModalOpen, setIsReviewModalOpen, isCreateReviewModalOpen, setIsCreateReviewModalOpen} = useContext(GlobalContext);
+  const [userSettings, setUserSettings] = useState<'reservations' | 'createReservation' | 'reviews' | 'createReviews' |'editProfile'|'' >('')
   const navigate = useNavigate();
-  
+ 
+
   useEffect(() => {
     if(CurrentUser){
       try{
@@ -50,55 +55,86 @@ const Account = () => {
   }else{
     return (
       <>
-        <Header />
+      <Header />
         <main>
           <div>
             <img src="/user.png" alt="User" />
           </div>
           <div>
             <h3>Olá, {user?.name}</h3>
-            <ButtonStyled>Editar conta</ButtonStyled>
-            <div>
-              <img src="Star" alt="" />
-              <span>Número de reviews</span>
-              <span>Reviews</span>
-            </div>
-            <div>
-              <div>
-                <img src="Foto perfil" alt="" />
-                <div>
-                  <p>Nome perfil</p>
-                  <p>Data do review</p>
-                  <img src="Icone Editar" alt="" />
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-              </div>
+            <ButtonStyled onClick={() => setUserSettings('editProfile')}>Editar conta</ButtonStyled>
+            <div className="menu_buttons">
+              <ButtonStyled onClick={() => setUserSettings('reservations')}>Suas Reservas</ButtonStyled>
+              <ButtonStyled onClick={() => setUserSettings('createReservation')}>Faça uma reserva</ButtonStyled>
+              <ButtonStyled onClick={() => setUserSettings('reviews')}>Seus Comentários</ButtonStyled>
+              <ButtonStyled onClick={() => setUserSettings('createReviews')}>Faça um comentário</ButtonStyled>
             </div>
           </div>
+
           <div>
-            <ButtonStyled>Suas Reservas</ButtonStyled>
             <ul>
-              { user ? user.reservations.map((reservation) => (
-                <li key={reservation.id}>
-                    <StyledP fontWeight="bold" fontSize="medium">Quarto: {reservation.bedroom.room_type}</StyledP>
-                    <img src={reservation.bedroom.image} alt="Imagem do quarto" />
-                    <p>Check-in: {reservation.checkin_date}</p>
-                    <p>Check-out: {reservation.checkout_date ? reservation.checkout_date : "Não informado"}</p>
-                    <p>Status: {reservation.status}</p>
-                    <p>Pago: {reservation.paid ? "Sim" : "Não"}</p>
-                    <p>Forma de pagamento: {reservation.payment_method ? reservation.payment_method : "Não informado"}</p>
-                    <p>Total: {reservation.total}</p>
-                </li>
-              )) : null
-                    
+              { user && userSettings === 'editProfile' ? (
+                <EditProfile user={user}/>
+                ) : null
               }
+
+              { user && userSettings === 'reservations' && user.reservations.length > 0 ? user.reservations.map((reservation) => (
+                  <ReservationsIcons reservation={reservation}/>
+                )) : user && userSettings === 'reservations' && user.reservations.length === 0 ? (
+                  <StyledH2 fontWeight="extrabold">Você ainda não possui reservas</StyledH2>
+                ) :
+                null
+              }
+
+              { user && userSettings === 'reviews' && user.reviews.length > 0? user.reviews.map((review) => (
+                  <li key={review.id}>
+                    <p>Avaliação: {review.classification}</p>
+                    <p>Comentário: {review.comments}</p>
+                    <ButtonStyled onClick={() =>{
+                      setIsReviewModalOpen(!isReviewModalOpen),
+                      localStorage.setItem('review', JSON.stringify(review))
+                    } 
+                    }>Editar sua avaliação</ButtonStyled>
+                  </li>
+                )) : user && userSettings === 'reviews' && user.reviews.length === 0 ? (
+                  <StyledH2 fontWeight="extrabold">Você ainda não fez comentários</StyledH2>
+                ) : null
+              }
+
+              { user && userSettings === 'createReservation' ? (
+                BedroomsList.map((bedroom) => (
+                  <li key={bedroom.id}>
+                    <StyledP fontWeight="bold" fontSize="medium">Quarto: {bedroom.room_type}</StyledP>
+                    <img src={bedroom.image} alt="Imagem do quarto" />
+                    <ButtonStyled onClick={() => navigate(`/booking/${bedroom.id}`)}>Faça sua reserva</ButtonStyled>
+                  </li>
+                ))
+              ):null
+              }
+
+              { user && userSettings === 'createReviews' ? (
+                HotelsList.map((hotel) => (
+                  <li key={hotel.id}>
+                    <StyledH3 fontWeight="bold">{hotel.description}</StyledH3>
+                    <img src={hotel.images[0].image} alt="Imagem do quarto" />
+                    <ButtonStyled onClick={(e) =>{
+                      e.preventDefault();
+                      setIsCreateReviewModalOpen(!isCreateReviewModalOpen);
+                      localStorage.setItem('hotel', hotel.id)}
+                    } >Crie sua avaliação</ButtonStyled>
+                  </li>
+                ))
+              ):null}
             </ul>
           </div>
+        { isReviewModalOpen && (
+          <EditReview review={JSON.parse(localStorage.getItem('review')!)}/>
+        )}
+        { isCreateReviewModalOpen && (
+          <CreateReview hotelId={localStorage.getItem('hotel')!}/>
+        )}
         </main>
-        <Footer />
+      <Footer />
       </>
     );
   }

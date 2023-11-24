@@ -44,7 +44,7 @@ const Home = () => {
         </StyledH2>
         <IconsRoom />
       </HomeStyled>
-      <Footer />
+      <Footer/>
     </>
   );
 };

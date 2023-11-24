@@ -1,6 +1,7 @@
 import { TLogin } from "../../components/Login/LoginSchema";
 import { TGuestRegisterSchema } from "../../components/Register/RegisterSchema";
 import { TReservationSchema } from "../../components/Reservations/ReservationSchema";
+import { TReviewSchema } from "../../components/userIcons/reviews/ReviewSchema";
 
 export interface IGlobalProviderProps {
     children: React.ReactNode
@@ -45,7 +46,7 @@ export interface IUser {
 
 export interface IBedroom {
     id: string
-    status: number
+    status: string
     image: string
     room_type: string
     bed_number: number
@@ -72,10 +73,10 @@ export interface IService {
 export interface IReservation{
     id: string
     checkin_date: string
-    checkout_date: string
+    checkout_date: string | null
     status: string
     paid: boolean
-    payment_method: string
+    payment_method: string | null
     total: number
     guest: IUser
     bedroom: IBedroom
@@ -95,6 +96,7 @@ export interface IGlobalContext {
     deleteUser: (user_id: string) => void
     getHotelById: (hotel_id: string) => void
     CurrentUser: ICurrentUser | null 
+    setCurrentUser: React.Dispatch<React.SetStateAction<ICurrentUser | null>>
     HotelsList: IHotel[]
     setHotelsList: React.Dispatch<React.SetStateAction<IHotel[]>>    
     Hotel: IHotel | null
@@ -107,4 +109,13 @@ export interface IGlobalContext {
     updateReservation: (formData: string, booking_id: string) => void
     isLoginModalOpen: boolean
     setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    AllBedroomsList: IBedroom[]
+    createReview: (formData: TReviewSchema, hotel_id: string) => void
+    deleteReview: (review_id: string) => void
+    updateReview: (formData: TReviewSchema, review_id: string) => void
+    isReviewModalOpen: boolean
+    setIsReviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    isCreateReviewModalOpen: boolean
+    setIsCreateReviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    
 }
